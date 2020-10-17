@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using Foundation;
 using UIKit;
 
@@ -25,9 +26,17 @@ namespace Radeoh.iOS
             Xamarin.Calabash.Start();
 #endif
             global::Xamarin.Forms.Forms.Init();
+            InitializeNLog();
             LoadApplication(new App());
 
             return base.FinishedLaunching(app, options);
+        }
+        
+        private void InitializeNLog()
+        {
+            Assembly assembly = this.GetType().Assembly;
+            string assemblyName = assembly.GetName().Name;
+            new Logging.Logger().Initialize(assembly, assemblyName);
         }
     }
 }
