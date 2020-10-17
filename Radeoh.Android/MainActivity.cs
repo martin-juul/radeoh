@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection;
 using Android.App;
 using Android.Content.PM;
 using Android.Runtime;
@@ -22,6 +23,7 @@ namespace Radeoh.Droid
 
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
+            InitializeNLog();
             LoadApplication(new App());
         }
 
@@ -31,6 +33,13 @@ namespace Radeoh.Droid
             Xamarin.Essentials.Platform.OnRequestPermissionsResult(requestCode, permissions, grantResults);
 
             base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
+        
+        private void InitializeNLog()
+        {
+            Assembly assembly = this.GetType().Assembly;
+            string assemblyName = assembly.GetName().Name;
+            new Logging.Logger().Initialize(assembly, assemblyName);
         }
     }
 }

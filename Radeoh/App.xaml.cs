@@ -1,11 +1,6 @@
-﻿using System;
-using NLog;
-using NLog.Fluent;
 using Radeoh.DAL;
-using Xamarin.Forms;
-using Xamarin.Forms.Xaml;
-using Radeoh.Services;
 using Radeoh.Views;
+using Xamarin.Forms;
 
 namespace Radeoh
 {
@@ -13,17 +8,14 @@ namespace Radeoh
     {
         private static RadeohDatabase _database;
         private readonly NLog.Logger _logger = NLog.LogManager.GetCurrentClassLogger();
-
+        
         public App()
         {
             InitializeComponent();
-
-            DependencyService.Register<MockDataStore>();
+            
             MainPage = new MainPage();
-
-            _logger.Info("Application started");
         }
-
+        
         public static RadeohDatabase Database
         {
             get
@@ -36,7 +28,7 @@ namespace Radeoh
                 return _database;
             }
         }
-
+        
         protected override void OnStart()
         {
         }

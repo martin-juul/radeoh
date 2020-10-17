@@ -10,9 +10,9 @@ using Xamarin.Forms.Xaml;
 namespace Radeoh.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class MainPage : ContentPage
+    public partial class StationListView : ContentPage
     {
-        public MainPage()
+        public StationListView()
         {
             InitializeComponent();
         }
