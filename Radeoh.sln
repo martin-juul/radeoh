@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Radeoh.UITests", "Radeoh.UI
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Radeoh", "Radeoh\Radeoh.csproj", "{B2ACCD31-80E7-4F5F-86A3-9E8A97114868}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Radeoh.UnitTests", "Radeoh.UnitTests\Radeoh.UnitTests.csproj", "{4FE2052C-E9E0-49AA-A674-E15F34384723}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -67,5 +69,17 @@ Global
 		{B2ACCD31-80E7-4F5F-86A3-9E8A97114868}.Debug|iPhone.Build.0 = Debug|Any CPU
 		{B2ACCD31-80E7-4F5F-86A3-9E8A97114868}.Release|iPhone.ActiveCfg = Release|Any CPU
 		{B2ACCD31-80E7-4F5F-86A3-9E8A97114868}.Release|iPhone.Build.0 = Release|Any CPU
+		{4FE2052C-E9E0-49AA-A674-E15F34384723}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4FE2052C-E9E0-49AA-A674-E15F34384723}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4FE2052C-E9E0-49AA-A674-E15F34384723}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4FE2052C-E9E0-49AA-A674-E15F34384723}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4FE2052C-E9E0-49AA-A674-E15F34384723}.Debug|iPhoneSimulator.ActiveCfg = Debug|Any CPU
+		{4FE2052C-E9E0-49AA-A674-E15F34384723}.Debug|iPhoneSimulator.Build.0 = Debug|Any CPU
+		{4FE2052C-E9E0-49AA-A674-E15F34384723}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
+		{4FE2052C-E9E0-49AA-A674-E15F34384723}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
+		{4FE2052C-E9E0-49AA-A674-E15F34384723}.Debug|iPhone.ActiveCfg = Debug|Any CPU
+		{4FE2052C-E9E0-49AA-A674-E15F34384723}.Debug|iPhone.Build.0 = Debug|Any CPU
+		{4FE2052C-E9E0-49AA-A674-E15F34384723}.Release|iPhone.ActiveCfg = Release|Any CPU
+		{4FE2052C-E9E0-49AA-A674-E15F34384723}.Release|iPhone.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
