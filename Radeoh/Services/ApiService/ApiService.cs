@@ -15,10 +15,10 @@ namespace Radeoh.Services.ApiService
         public static readonly MediaTypeWithQualityHeaderValue ApplicationJsonQ =
             MediaTypeWithQualityHeaderValue.Parse("application/json");
 
-        Uri _baseUri;
-        HttpClient _client;
+        private Uri _baseUri;
+        private HttpClient _client;
 
-        public Action<HttpRequestMessage> ConfigureHttpRequstMessage { get; set; }
+        public Action<HttpRequestMessage> ConfigureHttpRequest { get; set; }
 
         /// <summary>
         /// Cancellation token source. It can be used to cancel send operation.
@@ -36,7 +36,7 @@ namespace Radeoh.Services.ApiService
 
 
         /// <summary>
-        /// Construct service with a custom HttpClient
+        /// Constructs the service with a custom HttpClient
         /// </summary>
         /// <param name="httpClient">The external HttpClient.</param>
         public ApiService(HttpClient httpClient)
@@ -46,14 +46,14 @@ namespace Radeoh.Services.ApiService
         }
 
         /// <summary>
-        /// Constructs the simple Rest WEB API client.
+        /// Constructs an instance based on a baseurl and message delegate.
         /// </summary>
         /// <param name="baseUri">The base Uri to the WEB API service</param>
-        /// <param name="configureRequst">The optional conflagration delegate for the request message.</param>
-        public ApiService(Uri baseUri, Action<HttpRequestMessage> configureRequst = null)
+        /// <param name="configureHttpRequestMessage">The optional conflagration delegate for the request message.</param>
+        public ApiService(Uri baseUri, Action<HttpRequestMessage> configureHttpRequestMessage = null)
         {
             _baseUri = baseUri;
-            ConfigureHttpRequstMessage = configureRequst;
+            ConfigureHttpRequest = configureHttpRequestMessage;
         }
 
         /// <inheritdoc cref="IApiService"/>
@@ -71,11 +71,10 @@ namespace Radeoh.Services.ApiService
         /// <inheritdoc cref="IApiService"/>
         public Task<HttpResponseMessage> SendJsonRequest<T>(HttpMethod method, Uri uri, T json)
         {
-            string serialized = string.Empty;
-            if (json != null)
-            {
-                serialized = ApiServiceExtensions.GetJsonString(json);
-            }
+            var serialized = string.Empty;
+            if (json == null) return SendJsonRequest(method, uri, serialized);
+            
+            serialized = ApiServiceExtensions.GetJsonString(json);
 
             return SendJsonRequest(method, uri, serialized);
         }
@@ -95,7 +94,7 @@ namespace Radeoh.Services.ApiService
             }
 
             //request.Content.Headers.ContentType = ApplicationJson;
-            ConfigureHttpRequstMessage?.Invoke(request);
+            ConfigureHttpRequest?.Invoke(request);
             return client.SendAsync(request, CancellationTokenSource.Token);
         }
 
