@@ -1,6 +1,7 @@
 using Radeoh.DAL;
 using Radeoh.Views;
 using Xamarin.Forms;
+using Xamarin.Essentials;
 
 namespace Radeoh
 {
@@ -31,6 +32,7 @@ namespace Radeoh
         
         protected override void OnStart()
         {
+            VersionTracking.Track();
         }
 
         protected override void OnSleep()
