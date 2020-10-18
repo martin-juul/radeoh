@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Reflection;
+using Acr.UserDialogs;
 using Android.App;
 using Android.Content.PM;
 using Android.Runtime;
@@ -24,6 +25,7 @@ namespace Radeoh.Droid
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
             InitializeNLog();
+            UserDialogs.Init(this);
             LoadApplication(new App());
         }
 
