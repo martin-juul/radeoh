@@ -1,18 +1,31 @@
-using SQLite;
+using Newtonsoft.Json;
 
 namespace Radeoh.Models
 {
     public class Station
     {
-        [PrimaryKey, AutoIncrement]
-        public int Id { get; set; }
-        public string Title { get; set; }
-        [Unique]
-        public string Slug { get; set; }
-        public string Country { get; set; }
-        public string Lang { get; set; }
-        public string Subtext { get; set; }
-        public string Bitrate { get; set; }
-        public string StreamUrl { get; set; }
+        [JsonProperty("title")]
+        public string Title { get; set; } 
+
+        [JsonProperty("slug")]
+        public string Slug { get; set; } 
+
+        [JsonProperty("country")]
+        public string Country { get; set; } 
+
+        [JsonProperty("lang")]
+        public string Lang { get; set; } 
+
+        [JsonProperty("image")]
+        public string Image { get; set; } 
+
+        [JsonProperty("subtext")]
+        public object Subtext { get; set; } 
+
+        [JsonProperty("bitrate")]
+        public object Bitrate { get; set; } 
+
+        [JsonProperty("stream_url")]
+        public object StreamUrl { get; set; } 
     }
 }
