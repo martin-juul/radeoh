@@ -28,8 +28,7 @@ jobs:
     - name: Android
       run: |
         nuget restore
-        cd Radeoh.Android
-        msbuild Radeph.Android.csproj /verbosity:normal /t:Rebuild /p:Configuration=Debug
+        msbuild Radeoh.Android.csproj /verbosity:normal /t:Rebuild /p:Configuration=Debug
         
   iOS:
     runs-on: macos-latest
