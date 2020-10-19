@@ -27,10 +27,8 @@ jobs:
     - uses: actions/checkout@v1
     - name: Android
       run: |
-        cd Radeoh
         nuget restore
-        cd Radeoh.Android
-        msbuild Blank.Android.csproj /verbosity:normal /t:Rebuild /p:Configuration=Debug
+        msbuild Radeoh.Android.csproj /verbosity:normal /t:Rebuild /p:Configuration=Debug
         
   iOS:
     runs-on: macos-latest
@@ -38,6 +36,5 @@ jobs:
     - uses: actions/checkout@v1
     - name: iOS
       run: |
-        cd Radeoh
         nuget restore
         msbuild Radeoh.iOS/Radeoh.iOS.csproj /verbosity:normal /t:Rebuild /p:Platform=iPhoneSimulator /p:Configuration=Debug
