@@ -20,12 +20,12 @@ namespace Radeoh.Models
         public string Image { get; set; } 
 
         [JsonProperty("subtext")]
-        public object Subtext { get; set; } 
+        public string Subtext { get; set; } 
 
         [JsonProperty("bitrate")]
-        public object Bitrate { get; set; } 
+        public string Bitrate { get; set; } 
 
         [JsonProperty("stream_url")]
-        public object StreamUrl { get; set; } 
+        public string StreamUrl { get; set; }
     }
 }
