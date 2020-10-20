@@ -1,5 +1,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Newtonsoft.Json;
@@ -8,15 +10,27 @@ using Xamarin.Forms;
 
 namespace Radeoh.ViewModels
 {
-    public class MainPageViewModel : BaseViewModel
+    public class MainPageViewModel : BaseViewModel, INotifyPropertyChanged
     {
-        public ObservableCollection<Station> Stations { get; set; }
+        private ObservableCollection<Station> _stations;
         public ICommand FetchStationsCommand { get; set; }
+        public event PropertyChangedEventHandler PropertyChanged;
 
         public MainPageViewModel()
         {
             FetchStationsCommand = new Command(async () => await RunSafe(FetchStations()));
         }
+
+        public ObservableCollection<Station> Stations
+        {
+            get => _stations;
+            set
+            {
+                _stations = value;
+                OnPropertyChanged();
+            }
+        }
+
         async Task FetchStations()
         {
             var httpResponse = await ApiManager.GetStations();
@@ -31,6 +45,11 @@ namespace Radeoh.ViewModels
             {
                 await PageDialog.AlertAsync("Unable to fetch stations", "Error", "Ok");
             }
+        }
+
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs((propertyName)));
         }
     }
 }

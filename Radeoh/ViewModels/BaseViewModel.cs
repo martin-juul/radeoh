@@ -7,12 +7,12 @@ using Radeoh.Services.HttpApi;
 
 namespace Radeoh.ViewModels
 {
-    public class BaseViewModel : INotifyPropertyChanged
+    public class BaseViewModel
     {
         public IUserDialogs PageDialog = UserDialogs.Instance;
         public IApiManager ApiManager;
         IApiService<IRadeohApi> radeohApi = new ApiService<IRadeohApi>(Config.RadeohBaseUrl);
-        public event PropertyChangedEventHandler PropertyChanged;
+        private readonly NLog.Logger _logger = NLog.LogManager.GetCurrentClassLogger();
 
         public bool IsBusy { get; set; }
 
@@ -37,7 +37,7 @@ namespace Radeoh.ViewModels
             {
                 IsBusy = false;
                 UserDialogs.Instance.HideLoading();
-                Debug.WriteLine(e.ToString());
+                _logger.Error(e);
                 await App.Current.MainPage.DisplayAlert("Error", "Check your internet connection", "Ok");
             }
             finally

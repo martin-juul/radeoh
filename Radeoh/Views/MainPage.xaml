@@ -8,11 +8,12 @@
     xmlns:m="clr-namespace:Radeoh.Models;assembly=Radeoh"
 >
     <ContentPage.Content>
+        
         <ListView 
             ItemsSource="{Binding Stations}"
             Margin="0,20,0,0">
             <ListView.ItemTemplate>
-                <DataTemplate>
+                <DataTemplate x:DataType="m:Station">
                     <TextCell Text="{Binding Title}" TextColor="White" />
                 </DataTemplate>
             </ListView.ItemTemplate>
