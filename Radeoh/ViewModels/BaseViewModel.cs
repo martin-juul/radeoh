@@ -43,7 +43,10 @@ namespace Radeoh.ViewModels
             finally
             {
                 IsBusy = false;
-                if (ShowLoading) UserDialogs.Instance.HideLoading();
+                if (ShowLoading)
+                {
+                    UserDialogs.Instance.HideLoading();
+                }
             }
         }
     }
