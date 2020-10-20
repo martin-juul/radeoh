@@ -12,7 +12,14 @@ namespace Radeoh
         
         public App()
         {
+            // Forces dark mode
+            Current.UserAppTheme = OSAppTheme.Dark;
+            _logger.Debug("Set Current.UserAppTheme to OSAppTheme.Dark");
+            
             InitializeComponent();
+            _logger.Debug("Initialized component");
+
+            Device.SetFlags(new string[] { "MediaElement_Experimental" });
             
             MainPage = new MainPage();
         }
@@ -32,15 +39,18 @@ namespace Radeoh
         
         protected override void OnStart()
         {
+            _logger.Debug("App::OnStart");
             VersionTracking.Track();
         }
 
         protected override void OnSleep()
         {
+            _logger.Debug("App::OnSleep");
         }
 
         protected override void OnResume()
         {
+            _logger.Debug("App::OnResume");
         }
     }
 }
