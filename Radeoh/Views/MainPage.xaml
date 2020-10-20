@@ -1,20 +1,24 @@
-<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0"
+    encoding="utf-8"?>
 
 <ContentPage
     x:Class="Radeoh.Views.MainPage"
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:vm="clr-namespace:Radeoh.ViewModels;assembly=Radeoh"
-    xmlns:m="clr-namespace:Radeoh.Models;assembly=Radeoh"
->
+    xmlns:m="clr-namespace:Radeoh.Models;assembly=Radeoh">
     <ContentPage.Content>
-        
-        <ListView 
+
+        <ListView
             ItemsSource="{Binding Stations}"
+            ItemTapped="ListView_OnItemTapped"
             Margin="0,20,0,0">
             <ListView.ItemTemplate>
-                <DataTemplate x:DataType="m:Station">
-                    <TextCell Text="{Binding Title}" TextColor="White" />
+                <DataTemplate
+                    x:DataType="m:Station">
+                    <TextCell
+                        Text="{Binding Title}"
+                        TextColor="White" />
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
