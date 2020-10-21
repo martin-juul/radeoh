@@ -1,9 +1,11 @@
-# Xamarin
+# Xamarin(.Forms)
 
 This has been my first encounter with Xamarin.
 
 So let's start with the good parts. Coming from a mainly Typescript and PHP background,
 it is easy to get into C#. But that's when the fun stops happening.
+
+## The bad parts
 
 For all the hate npm gets. NuGet is singlehandely the worst package ecosystem i've encountered.
 
@@ -41,3 +43,13 @@ I was lucky enough to stumble upon
 Besides those. F#§! XAML and their context bindings.
 
 The lack of updated documentation made me almost ragequit, and just let it figure it out at runtime.
+
+## It's not me, it's you
+
+<div style="max-width: 80%; margin: 0 auto;">
+    <img alt="Xamarin why?" src="_media/xamarin_why.png">
+</div>
+
+<ref>  
+Courtesy of <a href="https://blogs.u2u.be/lander/post/2020/04/01/xamarin-has-the-wrong-focus" target="_blank">Lander Verhack</a>
+</ref>
