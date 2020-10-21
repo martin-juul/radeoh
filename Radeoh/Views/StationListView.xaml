@@ -1,0 +1,23 @@
+<ContentPage
+    x:Class="Radeoh.Views.StationListView"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:m="clr-namespace:Radeoh.Models;assembly=Radeoh">
+    <ContentPage.Content>
+
+        <ListView
+            ItemsSource="{Binding Stations}"
+            ItemTapped="ListView_OnItemTapped"
+            Margin="0,20,0,0">
+            <ListView.ItemTemplate>
+                <DataTemplate
+                    x:DataType="m:Station">
+                    <ImageCell
+                        ImageSource="{Binding SecureImageUrl}"
+                        Text="{Binding Title}"
+                        TextColor="Black" />
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </ContentPage.Content>
+</ContentPage>

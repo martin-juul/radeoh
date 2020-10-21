@@ -1,3 +1,4 @@
+using MediaManager;
 using Radeoh.DAL;
 using Radeoh.Views;
 using Xamarin.Forms;
@@ -13,8 +14,14 @@ namespace Radeoh
         public App()
         {
             InitializeComponent();
+            _logger.Debug("Initialized component");
+            // Forces dark mode
+            Current.UserAppTheme = OSAppTheme.Dark;
+            _logger.Debug("Set Current.UserAppTheme to OSAppTheme.Dark");
+
+            CrossMediaManager.Current.Init();
             
-            MainPage = new MainPage();
+            MainPage = new NavigationPage(new StationListView());
         }
         
         public static RadeohDatabase Database
@@ -32,15 +39,18 @@ namespace Radeoh
         
         protected override void OnStart()
         {
+            _logger.Debug("App::OnStart");
             VersionTracking.Track();
         }
 
         protected override void OnSleep()
         {
+            _logger.Debug("App::OnSleep");
         }
 
         protected override void OnResume()
         {
+            _logger.Debug("App::OnResume");
         }
     }
 }

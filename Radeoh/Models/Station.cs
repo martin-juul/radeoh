@@ -18,14 +18,15 @@ namespace Radeoh.Models
 
         [JsonProperty("image")]
         public string Image { get; set; } 
+        public string SecureImageUrl => Image.Replace("http", "https");
 
         [JsonProperty("subtext")]
-        public object Subtext { get; set; } 
+        public string Subtext { get; set; } 
 
         [JsonProperty("bitrate")]
-        public object Bitrate { get; set; } 
+        public string Bitrate { get; set; } 
 
         [JsonProperty("stream_url")]
-        public object StreamUrl { get; set; } 
+        public string StreamUrl { get; set; }
     }
 }
