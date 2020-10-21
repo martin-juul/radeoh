@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using NLog;
+using Newtonsoft.Json;
 using Radeoh.Models;
 using Radeoh.Support;
 using Xamarin.Forms;
@@ -12,17 +12,16 @@ using Xamarin.Forms.Xaml;
 namespace Radeoh.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class MainPage : ContentPage
+    public partial class StationListView : ContentPage
     {
-        ViewModels.MainPageViewModel _viewModel = new ViewModels.MainPageViewModel();
+        ViewModels.StationListViewModel _viewModel = new ViewModels.StationListViewModel();
         private readonly NLog.Logger _logger = NLog.LogManager.GetCurrentClassLogger();
-
-        public MainPage()
+        public StationListView()
         {
             InitializeComponent();
             this.BindingContext = _viewModel;
         }
-
+        
         protected override void OnAppearing()
         {
             base.OnAppearing();
@@ -31,17 +30,8 @@ namespace Radeoh.Views
 
         async void ListView_OnItemTapped(object sender, ItemTappedEventArgs e)
         {
-            
-            if (e.GetType() == typeof(Station))
-            {
-                Station station = e.Item as Station;
-                await Navigation.PushAsync(new Player(station));
-            }
-            else
-            {
-                e.Json();
-                _logger.Error("Wrong item", e.Item);
-            }
+            var station = _viewModel.Stations[e.ItemIndex];
+            await Navigation.PushAsync(new Player(station));
         }
     }
 }

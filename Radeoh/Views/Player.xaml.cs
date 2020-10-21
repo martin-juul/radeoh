@@ -1,12 +1,15 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Acr.UserDialogs;
+using MediaManager;
+using MediaManager.Library;
+using MediaManager.Media;
+using MediaManager.Playback;
+using MediaManager.Player;
 using Radeoh.Models;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using PositionChangedEventArgs = MediaManager.Playback.PositionChangedEventArgs;
 
 namespace Radeoh.Views
 {
@@ -14,38 +17,85 @@ namespace Radeoh.Views
     public partial class Player : ContentPage
     {
         public Station Station;
-        
+        private IMediaItem _currentItem;
+
         public Player(Station station)
         {
             InitializeComponent();
+            this.Station = station;
+            this.BindingContext = this;
+            
+            CrossMediaManager.Current.StateChanged += Current_OnStateChanged;
+            CrossMediaManager.Current.MediaItemChanged += Current_MediaItemChanged;
         }
-        
-        void OnPlayPauseButtonClicked(object sender, EventArgs args)
+
+        protected override async void OnAppearing()
         {
-            switch (MediaElement.CurrentState)
+            base.OnAppearing();
+
+            if (!CrossMediaManager.Current.IsPrepared())
             {
-                case MediaElementState.Closed:
-                case MediaElementState.Stopped:
-                case MediaElementState.Paused:
-                    MediaElement.Play();
-                    break;
-                case MediaElementState.Playing:
-                    MediaElement.Pause();
-                    break;
-                case MediaElementState.Opening:
-                    UserDialogs.Instance.Loading("Loading");
-                    break;
-                case MediaElementState.Buffering:
-                    UserDialogs.Instance.Loading("Buffering");
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
+                await InitPlay();
+
+                // Set up Player Preferences
+                CrossMediaManager.Current.AutoPlay = true;
+            }
+            else
+            {
+                SetupCurrentMediaDetails(CrossMediaManager.Current.Queue.Current);
+                SetupCurrentMediaPlayerState(CrossMediaManager.Current.State);
             }
         }
 
-        void OnStopButtonClicked(object sender, EventArgs args)
+        private async Task InitPlay()
         {
-            MediaElement.Stop();
+            this._currentItem = await CrossMediaManager.Current.Play(this.Station.StreamUrl);
         }
+
+        private void SetupCurrentMediaDetails(IMediaItem currentMediaItem)
+        {
+            LabelMediaDetails.Text = this.Station.Title;
+        }
+
+        private void SetupCurrentMediaPlayerState(MediaPlayerState currentPlayerState)
+        {
+            // LabelPlayerStatus.Text = $"{currentPlayerState.ToString().ToUpper()}";
+
+            if (currentPlayerState == MediaManager.Player.MediaPlayerState.Loading)
+            {
+                UserDialogs.Instance.Loading("Loading..");
+            }
+            else if (currentPlayerState == MediaManager.Player.MediaPlayerState.Playing
+                     && CrossMediaManager.Current.Duration.Ticks > 0)
+            {
+                UserDialogs.Instance.HideLoading();
+            }
+        }
+        
+        private void Current_MediaItemChanged(object sender, MediaItemEventArgs e)
+        {
+            SetupCurrentMediaDetails(e.MediaItem);
+        }
+
+        private async void PlayPauseButton_Clicked(object sender, EventArgs e)
+        {
+            if (!CrossMediaManager.Current.IsPrepared())
+            {
+                await InitPlay();
+            }
+            else
+            {
+                await CrossMediaManager.Current.PlayPause();
+            }
+        }
+
+        private void Current_OnStateChanged(object sender, StateChangedEventArgs e)
+        {
+            Device.BeginInvokeOnMainThread(() => 
+            {
+                SetupCurrentMediaPlayerState(e.State); 
+            });
+        }
+
     }
 }

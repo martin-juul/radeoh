@@ -18,6 +18,7 @@ namespace Radeoh.Models
 
         [JsonProperty("image")]
         public string Image { get; set; } 
+        public string SecureImageUrl => Image.Replace("http", "https");
 
         [JsonProperty("subtext")]
         public string Subtext { get; set; } 

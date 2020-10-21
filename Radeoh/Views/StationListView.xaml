@@ -1,11 +1,7 @@
-<?xml version="1.0"
-    encoding="utf-8"?>
-
 <ContentPage
-    x:Class="Radeoh.Views.MainPage"
+    x:Class="Radeoh.Views.StationListView"
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:vm="clr-namespace:Radeoh.ViewModels;assembly=Radeoh"
     xmlns:m="clr-namespace:Radeoh.Models;assembly=Radeoh">
     <ContentPage.Content>
 
@@ -16,9 +12,10 @@
             <ListView.ItemTemplate>
                 <DataTemplate
                     x:DataType="m:Station">
-                    <TextCell
+                    <ImageCell
+                        ImageSource="{Binding SecureImageUrl}"
                         Text="{Binding Title}"
-                        TextColor="White" />
+                        TextColor="Black" />
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>

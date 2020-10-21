@@ -10,13 +10,13 @@ using Xamarin.Forms;
 
 namespace Radeoh.ViewModels
 {
-    public class MainPageViewModel : BaseViewModel, INotifyPropertyChanged
+    public class StationListViewModel : BaseViewModel, INotifyPropertyChanged
     {
         private ObservableCollection<Station> _stations;
         public ICommand FetchStationsCommand { get; set; }
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public MainPageViewModel()
+        public StationListViewModel()
         {
             FetchStationsCommand = new Command(async () => await RunSafe(FetchStations()));
         }
