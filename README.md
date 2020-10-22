@@ -2,6 +2,8 @@
 
 > Internet radio streaming app.
 
+[Documentation](https://martin-juul.github.io/radeoh/#/)
+
 Xamarin app for Android & iOS utilizing [https://github.com/martin-juul/radeoh-api](https://github.com/martin-juul/radeoh-api)
 
 ## Getting started
@@ -20,3 +22,7 @@ gem install cocoapods
 ## Roadmap
 
 See [milestones](https://github.com/martin-juul/radeoh/milestones)
+
+## License
+
+This project is licensed under Apache-2.0. Which can be viewed at [LICENSE](/LICENSE)
