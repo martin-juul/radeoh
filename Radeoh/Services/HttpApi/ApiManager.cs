@@ -65,11 +65,11 @@ namespace Radeoh.Services.HttpApi
 
             if (!IsConnected)
             {
-                var strngResponse = "There's not a network connection";
+                var stringResponse = "There's not a network connection";
                 data.StatusCode = HttpStatusCode.BadRequest;
-                data.Content = new StringContent(strngResponse);
+                data.Content = new StringContent(stringResponse);
 
-                _userDialogs.Toast(strngResponse, TimeSpan.FromSeconds(1));
+                _userDialogs.Toast(stringResponse, TimeSpan.FromSeconds(1));
                 return data;
             }
 
@@ -88,7 +88,7 @@ namespace Radeoh.Services.HttpApi
 
                     if (result.StatusCode == HttpStatusCode.Unauthorized)
                     {
-                        //Logout the user 
+                        _userDialogs.Alert("Unauthorized");
                     }
 
                     runningTasks.Remove(task.Id);
