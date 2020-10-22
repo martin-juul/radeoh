@@ -9,7 +9,6 @@ using MediaManager.Player;
 using Radeoh.Models;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
-using PositionChangedEventArgs = MediaManager.Playback.PositionChangedEventArgs;
 
 namespace Radeoh.Views
 {
@@ -22,9 +21,9 @@ namespace Radeoh.Views
         public Player(Station station)
         {
             InitializeComponent();
-            this.Station = station;
-            this.BindingContext = this;
-            
+            Station = station;
+            BindingContext = this;
+
             CrossMediaManager.Current.StateChanged += Current_OnStateChanged;
             CrossMediaManager.Current.MediaItemChanged += Current_MediaItemChanged;
         }
@@ -32,6 +31,11 @@ namespace Radeoh.Views
         protected override async void OnAppearing()
         {
             base.OnAppearing();
+
+            if (CrossMediaManager.Current.IsPlaying())
+            {
+                return;
+            }
 
             if (!CrossMediaManager.Current.IsPrepared())
             {
@@ -47,14 +51,20 @@ namespace Radeoh.Views
             }
         }
 
+        protected override void OnDisappearing()
+        {
+            base.OnDisappearing();
+        }
+
         private async Task InitPlay()
         {
-            this._currentItem = await CrossMediaManager.Current.Play(this.Station.StreamUrl);
+            var uri = Station.StreamUrl;
+            _currentItem = await CrossMediaManager.Current.Play(uri);
         }
 
         private void SetupCurrentMediaDetails(IMediaItem currentMediaItem)
         {
-            LabelMediaDetails.Text = this.Station.Title;
+            CrossMediaManager.Current.Play(currentMediaItem.MediaUri);
         }
 
         private void SetupCurrentMediaPlayerState(MediaPlayerState currentPlayerState)
@@ -71,13 +81,13 @@ namespace Radeoh.Views
                 UserDialogs.Instance.HideLoading();
             }
         }
-        
+
         private void Current_MediaItemChanged(object sender, MediaItemEventArgs e)
         {
             SetupCurrentMediaDetails(e.MediaItem);
         }
 
-        private async void PlayPauseButton_Clicked(object sender, EventArgs e)
+        public async void PlayPauseButton_Clicked(object sender, EventArgs e)
         {
             if (!CrossMediaManager.Current.IsPrepared())
             {
@@ -91,11 +101,7 @@ namespace Radeoh.Views
 
         private void Current_OnStateChanged(object sender, StateChangedEventArgs e)
         {
-            Device.BeginInvokeOnMainThread(() => 
-            {
-                SetupCurrentMediaPlayerState(e.State); 
-            });
+            Device.BeginInvokeOnMainThread(() => { SetupCurrentMediaPlayerState(e.State); });
         }
-
     }
 }
