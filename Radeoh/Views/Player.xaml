@@ -18,8 +18,8 @@
            <Grid ColumnSpacing="1" RowSpacing="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="3*" />
                 <ColumnDefinition Width="2*" />
-                <ColumnDefinition Width="1*" />
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
@@ -30,8 +30,8 @@
             
             <Label
                 x:Name="LabelMediaDetails"
-                Grid.Row="1"
-                Grid.Column="1"
+                Grid.Row="0"
+                Grid.Column="2"
                 Margin="5,0,5,0"
                 FontSize="Medium"
                 HeightRequest="35"
@@ -39,9 +39,14 @@
                 HorizontalTextAlignment="Center"
                 LineBreakMode="TailTruncation"
                 MaxLines="1"
-                Text="- MEDIA DETAILS -"
-                TextColor="HotPink"
+                TextColor="Orange"
                 VerticalTextAlignment="Center" />
+            
+            <Image
+                Grid.Row="1"
+                Grid.Column="1"
+                HeightRequest="100"
+                x:Name="StationImage" />
 
             
             <Button
