@@ -32,23 +32,10 @@ namespace Radeoh.Views
         {
             base.OnAppearing();
 
-            if (CrossMediaManager.Current.IsPlaying())
-            {
-                return;
-            }
+            StationImage.Source = Station.SecureImageUrl;
+            LabelMediaDetails.Text = Station.Title;
 
-            if (!CrossMediaManager.Current.IsPrepared())
-            {
-                await InitPlay();
-
-                // Set up Player Preferences
-                CrossMediaManager.Current.AutoPlay = true;
-            }
-            else
-            {
-                SetupCurrentMediaDetails(CrossMediaManager.Current.Queue.Current);
-                SetupCurrentMediaPlayerState(CrossMediaManager.Current.State);
-            }
+            await InitPlay();
         }
 
         protected override void OnDisappearing()
@@ -60,6 +47,10 @@ namespace Radeoh.Views
         {
             var uri = Station.StreamUrl;
             _currentItem = await CrossMediaManager.Current.Play(uri);
+            CrossMediaManager.Current.AutoPlay = true;
+
+            _currentItem.Title = Station.Title;
+            _currentItem.ImageUri = Station.SecureImageUrl;
         }
 
         private void SetupCurrentMediaDetails(IMediaItem currentMediaItem)
@@ -69,8 +60,6 @@ namespace Radeoh.Views
 
         private void SetupCurrentMediaPlayerState(MediaPlayerState currentPlayerState)
         {
-            // LabelPlayerStatus.Text = $"{currentPlayerState.ToString().ToUpper()}";
-
             if (currentPlayerState == MediaManager.Player.MediaPlayerState.Loading)
             {
                 UserDialogs.Instance.Loading("Loading..");
