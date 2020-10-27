@@ -15,9 +15,7 @@ namespace Radeoh
         {
             InitializeComponent();
             _logger.Debug("Initialized component");
-            // Forces dark mode
-            Current.UserAppTheme = OSAppTheme.Dark;
-            _logger.Debug("Set Current.UserAppTheme to OSAppTheme.Dark");
+            Current.UserAppTheme = OSAppTheme.Light;
 
             CrossMediaManager.Current.Init();
             

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using AVFoundation;
 using Foundation;
 using UIKit;
 
@@ -24,6 +25,7 @@ namespace Radeoh.iOS
         {
             global::Xamarin.Forms.Forms.Init();
             InitializeNLog();
+            EnableBackgroundAudio();
             LoadApplication(new App());
 
             return base.FinishedLaunching(app, options);
@@ -34,6 +36,13 @@ namespace Radeoh.iOS
             Assembly assembly = this.GetType().Assembly;
             string assemblyName = assembly.GetName().Name;
             new Logging.Logger().Initialize(assembly, assemblyName);
+        }
+
+        private void EnableBackgroundAudio()
+        {
+            var currentSession = AVAudioSession.SharedInstance();
+            currentSession.SetCategory(AVAudioSessionCategory.Playback, AVAudioSessionCategoryOptions.MixWithOthers);
+            currentSession.SetActive(true);
         }
     }
 }
