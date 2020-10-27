@@ -38,6 +38,7 @@ namespace Radeoh.ViewModels
                 IsBusy = false;
                 UserDialogs.Instance.HideLoading();
                 _logger.Error(e);
+                Debug.Write(e);
                 await App.Current.MainPage.DisplayAlert("Error", "Check your internet connection", "Ok");
             }
             finally

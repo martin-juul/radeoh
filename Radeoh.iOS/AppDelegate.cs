@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Foundation;
+using PanCardView.iOS;
 using UIKit;
 
 namespace Radeoh.iOS
@@ -23,6 +24,7 @@ namespace Radeoh.iOS
         public override bool FinishedLaunching(UIApplication app, NSDictionary options)
         {
             global::Xamarin.Forms.Forms.Init();
+            CardsViewRenderer.Preserve();
             InitializeNLog();
             LoadApplication(new App());
 

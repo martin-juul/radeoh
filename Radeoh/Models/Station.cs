@@ -1,4 +1,6 @@
+using System;
 using Newtonsoft.Json;
+using Xamarin.Forms;
 
 namespace Radeoh.Models
 {
@@ -19,6 +21,13 @@ namespace Radeoh.Models
         [JsonProperty("image")]
         public string Image { get; set; } 
         public string SecureImageUrl => Image.Replace("http", "https");
+        
+        public UriImageSource CachedImageSource => new UriImageSource
+        {
+            Uri = new Uri(SecureImageUrl),
+            CachingEnabled = true,
+            CacheValidity = new TimeSpan(1, 0, 0, 0, 0)
+        };
 
         [JsonProperty("subtext")]
         public string Subtext { get; set; } 
@@ -28,5 +37,7 @@ namespace Radeoh.Models
 
         [JsonProperty("stream_url")]
         public string StreamUrl { get; set; }
+
+        public string InsecureStreamUrl => StreamUrl.Replace("https", "http");
     }
 }

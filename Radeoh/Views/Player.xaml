@@ -35,7 +35,6 @@
             Aspect="AspectFit"
             HeightRequest="300"
             x:Name="StationImage" />
-
             
         <Button
             BackgroundColor="Orange"

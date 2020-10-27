@@ -1,11 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Newtonsoft.Json;
-using Radeoh.Models;
-using Radeoh.Support;
+using System.Diagnostics;
+using NLog;
+using Radeoh.ViewModels;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -14,24 +9,40 @@ namespace Radeoh.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class StationListView : ContentPage
     {
-        ViewModels.StationListViewModel _viewModel = new ViewModels.StationListViewModel();
-        private readonly NLog.Logger _logger = NLog.LogManager.GetCurrentClassLogger();
+        StationListViewModel _viewModel = new StationListViewModel();
+        PlayerViewModel _playerViewModel = new PlayerViewModel();
+
+        private readonly Logger _logger = LogManager.GetCurrentClassLogger();
+
         public StationListView()
         {
             InitializeComponent();
-            this.BindingContext = _viewModel;
+            BindingContext = _viewModel;
         }
-        
+
         protected override void OnAppearing()
         {
             base.OnAppearing();
+            _logger.Debug("OnAppearing::FetchStationsCommand");
             _viewModel.FetchStationsCommand.Execute(null);
         }
 
         async void ListView_OnItemTapped(object sender, ItemTappedEventArgs e)
         {
-            var station = _viewModel.Stations[e.ItemIndex];
-            await Navigation.PushAsync(new Player(station));
+            Debug.Print(e.Item.ToString());
+
+            if (((ListView) sender).SelectedItem == null)
+            {
+                return;
+            }
+            else
+            {
+                var station = _viewModel.Stations[e.ItemIndex];
+                _playerViewModel.Station = station;
+                await Navigation.PushAsync(new Player(ref _playerViewModel));
+            }
+
+            ((ListView) sender).SelectedItem = null;
         }
     }
 }
