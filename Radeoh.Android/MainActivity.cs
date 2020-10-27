@@ -7,7 +7,6 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using Android.OS;
-using PanCardView.Droid;
 
 namespace Radeoh.Droid
 {
@@ -25,7 +24,6 @@ namespace Radeoh.Droid
 
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
-            CardsViewRenderer.Preserve();
             InitializeNLog();
 
             UserDialogs.Init(this);
