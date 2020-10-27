@@ -13,7 +13,7 @@
                 <DataTemplate
                     x:DataType="m:Station">
                     <ImageCell
-                        ImageSource="{Binding SecureImageUrl}"
+                        ImageSource="{Binding CachedImageSource}"
                         Text="{Binding Title}"
                         TextColor="Black" />
                 </DataTemplate>
