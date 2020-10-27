@@ -1,5 +1,6 @@
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Acr.UserDialogs;
@@ -25,11 +26,13 @@ namespace Radeoh.ViewModels
         /// you'll run into "accessor is recursive on all execution paths".
         /// </summary>
         private Station _station;
+
         public Station Station
         {
             get => _station;
             set
             {
+                if (value == _station) return;
                 _station = value;
                 OnPropertyChanged();
             }
@@ -39,6 +42,7 @@ namespace Radeoh.ViewModels
 
         public PlayerViewModel()
         {
+            Debug.Print("PlayerViewModel: constructed");
             _mediaManager.StateChanged += CurrentOnStateChanged;
             _mediaManager.MediaItemChanged += CurrentOnMediaItemChanged;
             _mediaManager.MediaItemFailed += CurrentOnMediaItemFailed;
@@ -53,8 +57,18 @@ namespace Radeoh.ViewModels
         {
             Debug.Print("PlayerViewModel::InitPlay");
             var uri = Station.StreamUrl;
-            _currentItem = await CrossMediaManager.Current.Play(uri);
-            CrossMediaManager.Current.AutoPlay = true;
+
+            if (_mediaManager.IsPlaying())
+            {
+                if (_currentItem.MediaUri == uri)
+                {
+                    Debug.Print($"Already playing {uri} skipping.");
+                    return;
+                }
+            }
+            
+            _currentItem = await _mediaManager.Play(uri);
+            _mediaManager.AutoPlay = true;
 
             _currentItem.Title = Station.Title;
             _currentItem.Image = Station.CachedImageSource;
