@@ -14,6 +14,7 @@ namespace Radeoh.ViewModels
     public class StationListViewModel : BaseViewModel, INotifyPropertyChanged
     {
         private ObservableCollection<Station> _stations;
+        private bool _hasStations = false;
         public ICommand FetchStationsCommand { get; set; }
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -34,6 +35,8 @@ namespace Radeoh.ViewModels
 
         async Task FetchStations()
         {
+            if (_hasStations) return;
+            
             var httpResponse = await ApiManager.GetStations();
 
             if (httpResponse.IsSuccessStatusCode)
@@ -41,6 +44,7 @@ namespace Radeoh.ViewModels
                 var res = await httpResponse.Content.ReadAsStringAsync();
                 var json = await Task.Run(() => JsonConvert.DeserializeObject<List<Station>>(res));
                 Stations = new ObservableCollection<Station>(json);
+                this._hasStations = true;
             }
             else
             {

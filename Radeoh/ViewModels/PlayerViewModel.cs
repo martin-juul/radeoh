@@ -1,6 +1,5 @@
 using System.ComponentModel;
 using System.Diagnostics;
-using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Acr.UserDialogs;
@@ -9,15 +8,17 @@ using MediaManager.Library;
 using MediaManager.Media;
 using MediaManager.Playback;
 using MediaManager.Player;
+using NLog;
 using Radeoh.Models;
+using Radeoh.Support;
 
 namespace Radeoh.ViewModels
 {
-    public class PlayerViewModel : BaseViewModel, INotifyPropertyChanged
+    public sealed class PlayerViewModel : BaseViewModel, INotifyPropertyChanged
     {
-        private readonly NLog.Logger _logger = NLog.LogManager.GetCurrentClassLogger();
-        private IUserDialogs _dialogs = UserDialogs.Instance;
-        private IMediaManager _mediaManager = CrossMediaManager.Current;
+        private readonly Logger _logger = LogManager.GetCurrentClassLogger();
+        private readonly IUserDialogs _dialogs = UserDialogs.Instance;
+        private readonly IMediaManager _mediaManager = CrossMediaManager.Current;
         private IMediaItem _currentItem;
 
         /// <summary>
@@ -43,14 +44,7 @@ namespace Radeoh.ViewModels
         public PlayerViewModel()
         {
             Debug.Print("PlayerViewModel: constructed");
-            _mediaManager.StateChanged += CurrentOnStateChanged;
-            _mediaManager.MediaItemChanged += CurrentOnMediaItemChanged;
-            _mediaManager.MediaItemFailed += CurrentOnMediaItemFailed;
-        }
-
-        public void AttachStateChangedHandler(StateChangedEventHandler eventHandler)
-        {
-            _mediaManager.StateChanged += eventHandler;
+            ConfigureMediaManager();
         }
 
         public async Task InitPlay()
@@ -58,57 +52,113 @@ namespace Radeoh.ViewModels
             Debug.Print("PlayerViewModel::InitPlay");
             var uri = Station.StreamUrl;
 
+            if (await DidToggleOnSameUri(uri)) return;
+
             if (_mediaManager.IsPlaying())
             {
-                if (_currentItem.MediaUri == uri)
-                {
-                    Debug.Print($"Already playing {uri} skipping.");
-                    return;
-                }
+                await _mediaManager.Stop();
             }
             
+            // We got a new uri, so we're changing the stream
             _currentItem = await _mediaManager.Play(uri);
-            _mediaManager.AutoPlay = true;
 
             _currentItem.Title = Station.Title;
             _currentItem.Image = Station.CachedImageSource;
+            _mediaManager.Notification.UpdateNotification();
+            ConfigureNotification();
+        }
+
+        private async Task<bool> DidToggleOnSameUri(string uri)
+        {
+            if (_mediaManager.IsPlaying())
+            {
+                // If MediaManager is playing, we know _currentItem exist.
+                if (_currentItem.MediaUri == uri)
+                {
+                    Debug.Print($"Already playing {uri} - assuming toggle stop.");
+                    await _mediaManager.Pause();
+                    return true;
+                }
+            }
+
+            if (_mediaManager.Queue.HasCurrent)
+            {
+                if (_currentItem.MediaUri == uri)
+                {
+                    Debug.Print("Unpausing");
+                    await _mediaManager.Play();
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        private void ConfigureMediaManager()
+        {
+            _mediaManager.StateChanged += CurrentOnStateChanged;
+            _mediaManager.MediaItemChanged += CurrentOnMediaItemChanged;
+            _mediaManager.MediaItemFailed += CurrentOnMediaItemFailed;
+            
+            _mediaManager.AutoPlay = true;
+            _mediaManager.ClearQueueOnPlay = true;
+            _mediaManager.RetryPlayOnFailed = true;
+            _mediaManager.MaxRetryCount = 5; 
+        }
+
+        private void ConfigureNotification()
+        {
+            _mediaManager.Notification.ShowNavigationControls = false;
+            _mediaManager.Notification.ShowPlayPauseControls = true;
+            _mediaManager.Notification.Enabled = true;
         }
 
         private void CurrentOnStateChanged(object sender, StateChangedEventArgs e)
         {
+            var state = "Unknown";
+            
             switch (e.State)
             {
                 case MediaPlayerState.Buffering:
                     Debug.Print("Player: MediaPlayerState.Buffering");
+                    state = "Buffering";
                     break;
                 case MediaPlayerState.Loading:
                     Debug.Print("Player: MediaPlayerState.Loading");
+                    state = "Loading";
                     break;
                 case MediaPlayerState.Paused:
                     Debug.Print("Player: MediaPlayerState.Paused");
+                    state = "Paused";
                     break;
                 case MediaPlayerState.Stopped:
                     Debug.Print("Player: MediaPlayerState.Stopped");
+                    state = "Stopped";
                     break;
                 case MediaPlayerState.Failed:
-                    Debug.Print("Player: MediaPlayerState.Failed", this._currentItem);
+                    Debug.Print("Player: MediaPlayerState.Failed", _currentItem);
+                    state = "Failed";
                     break;
             }
+            
+            _logger.Info($"CurrentOnStateChanged: {state}");
         }
 
         private void CurrentOnMediaItemChanged(object sender, MediaItemEventArgs e)
         {
+            _logger.Info($"CurrentOnMediaItemChanged: {e.MediaItem}");
             CrossMediaManager.Current.Play(e.MediaItem.MediaUri);
         }
 
         private void CurrentOnMediaItemFailed(object sender, MediaItemFailedEventArgs e)
         {
+            _logger.Error($"CurrentOnMediaItemFailed: {e}");
             _dialogs.AlertAsync($"Stream failed due to\n{e.Message}", "Ok");
         }
 
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        private void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
-            Debug.Print($"OnPropertyChanged({propertyName})");
+            Debug.Print($"OnPropertyChanged: {propertyName}");
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs((propertyName)));
         }
     }
