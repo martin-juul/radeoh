@@ -6,16 +6,27 @@
     <ContentPage.Content>
 
         <ListView
+            BackgroundColor="#121212"
             ItemsSource="{Binding Stations}"
             ItemTapped="ListView_OnItemTapped"
-            Margin="0,20,0,0">
+            Margin="0,0,0,0"
+            SeparatorVisibility="None"
+            CachingStrategy="RecycleElementAndDataTemplate"
+            >
             <ListView.ItemTemplate>
-                <DataTemplate
-                    x:DataType="m:Station">
-                    <ImageCell
-                        ImageSource="{Binding CachedImageSource}"
-                        Text="{Binding Title}"
-                        TextColor="Black" />
+                <DataTemplate x:DataType="m:Station">
+                    <ViewCell>
+                        <StackLayout Orientation="Horizontal">
+                            <Image
+                                WidthRequest="64"
+                                Source="{Binding CachedImageSource}"
+                            ></Image>
+                            
+                            <Label Text="{Binding Name}"
+                                   TextColor="Accent"
+                                   FontSize="Medium"></Label>
+                        </StackLayout>
+                    </ViewCell>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>

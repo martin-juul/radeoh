@@ -7,7 +7,9 @@ namespace Radeoh.Models
     public class Station
     {
         [JsonProperty("title")]
-        public string Title { get; set; } 
+        public string Title { get; set; }
+
+        public string Name => Title.Split('(')[0].Trim();
 
         [JsonProperty("slug")]
         public string Slug { get; set; } 
