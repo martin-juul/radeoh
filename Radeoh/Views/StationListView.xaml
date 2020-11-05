@@ -11,21 +11,36 @@
             ItemTapped="ListView_OnItemTapped"
             Margin="0,0,0,0"
             SeparatorVisibility="None"
-            CachingStrategy="RecycleElementAndDataTemplate"
-            >
+            CachingStrategy="RecycleElementAndDataTemplate">
             <ListView.ItemTemplate>
                 <DataTemplate x:DataType="m:Station">
                     <ViewCell>
-                        <StackLayout Orientation="Horizontal">
-                            <Image
-                                WidthRequest="64"
-                                Source="{Binding CachedImageSource}"
-                            ></Image>
+                        <SwipeView BackgroundColor="#121212">
+
+                            <SwipeView.RightItems>
+                               <SwipeItems SwipeBehaviorOnInvoked="Close">
+                                   <SwipeItem
+                                       Text="❤"
+                                       BackgroundColor="LightCoral"
+                                       Invoked="SwipeItem_OnInvoked"></SwipeItem>
+                               </SwipeItems>
+                            </SwipeView.RightItems>
+
+                            <StackLayout Orientation="Horizontal" HeightRequest="48">
+                                <Image
+                                    Aspect="Fill"
+                                    HeightRequest="48"
+                                    Source="{Binding CachedImageSource}"
+                                />
                             
-                            <Label Text="{Binding Name}"
-                                   TextColor="Accent"
-                                   FontSize="Medium"></Label>
-                        </StackLayout>
+                                <Label Text="{Binding Name}"
+                                       TextColor="Orange"
+                                       FontSize="Medium"
+                                       LineHeight="1.5"
+                                       FontAttributes="Bold" />
+                            </StackLayout>
+
+                        </SwipeView>
                     </ViewCell>
                 </DataTemplate>
             </ListView.ItemTemplate>

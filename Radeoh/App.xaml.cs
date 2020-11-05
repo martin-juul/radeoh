@@ -15,7 +15,7 @@ namespace Radeoh
         {
             InitializeComponent();
             _logger.Debug("Initialized component");
-            Current.UserAppTheme = OSAppTheme.Light;
+            Current.UserAppTheme = OSAppTheme.Dark;
 
             CrossMediaManager.Current.Init();
             
@@ -37,18 +37,15 @@ namespace Radeoh
         
         protected override void OnStart()
         {
-            _logger.Debug("App::OnStart");
             VersionTracking.Track();
         }
 
         protected override void OnSleep()
         {
-            _logger.Debug("App::OnSleep");
         }
 
         protected override void OnResume()
         {
-            _logger.Debug("App::OnResume");
         }
     }
 }

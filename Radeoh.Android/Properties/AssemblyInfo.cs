@@ -6,12 +6,12 @@ using Android.App;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Radeoh.Android")]
+[assembly: AssemblyTitle("Radeoh")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("Radeoh.Android")]
-[assembly: AssemblyCopyright("Copyright © 2020")]
+[assembly: AssemblyProduct("Radeoh")]
+[assembly: AssemblyCopyright("Copyright © 2020 Martin Juul")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 [assembly: ComVisible(false)]
