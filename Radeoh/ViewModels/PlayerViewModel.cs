@@ -39,6 +39,8 @@ namespace Radeoh.ViewModels
             }
         }
 
+        public string PlayerBtnState = "Pause";
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         public PlayerViewModel()
@@ -65,7 +67,6 @@ namespace Radeoh.ViewModels
             _currentItem.Title = Station.Title;
             _currentItem.Image = Station.CachedImageSource;
             _mediaManager.Notification.UpdateNotification();
-            ConfigureNotification();
         }
 
         private async Task<bool> DidToggleOnSameUri(string uri)
@@ -104,6 +105,10 @@ namespace Radeoh.ViewModels
             _mediaManager.ClearQueueOnPlay = true;
             _mediaManager.RetryPlayOnFailed = true;
             _mediaManager.MaxRetryCount = 5; 
+            
+            _mediaManager.Notification.ShowNavigationControls = false;
+            _mediaManager.Notification.ShowPlayPauseControls = true;
+            _mediaManager.Notification.Enabled = true;
         }
 
         private void ConfigureNotification()
@@ -122,22 +127,30 @@ namespace Radeoh.ViewModels
                 case MediaPlayerState.Buffering:
                     Debug.Print("Player: MediaPlayerState.Buffering");
                     state = "Buffering";
+                    PlayerBtnState = "Pause";
                     break;
                 case MediaPlayerState.Loading:
                     Debug.Print("Player: MediaPlayerState.Loading");
                     state = "Loading";
+                    PlayerBtnState = "Pause";
                     break;
                 case MediaPlayerState.Paused:
                     Debug.Print("Player: MediaPlayerState.Paused");
                     state = "Paused";
+                    PlayerBtnState = "Play";
                     break;
                 case MediaPlayerState.Stopped:
                     Debug.Print("Player: MediaPlayerState.Stopped");
                     state = "Stopped";
+                    PlayerBtnState = "Play";
                     break;
                 case MediaPlayerState.Failed:
                     Debug.Print("Player: MediaPlayerState.Failed", _currentItem);
                     state = "Failed";
+                    PlayerBtnState = "Play";
+                    break;
+                default:
+                    PlayerBtnState = "Play";
                     break;
             }
             

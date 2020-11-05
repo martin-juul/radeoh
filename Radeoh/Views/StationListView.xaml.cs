@@ -1,3 +1,4 @@
+using System;
 using System.Diagnostics;
 using NLog;
 using Radeoh.ViewModels;
@@ -17,6 +18,7 @@ namespace Radeoh.Views
         public StationListView()
         {
             InitializeComponent();
+            NavigationPage.SetHasNavigationBar(this, false);
             BindingContext = _viewModel;
         }
 
@@ -35,14 +37,17 @@ namespace Radeoh.Views
             {
                 return;
             }
-            else
-            {
-                var station = _viewModel.Stations[e.ItemIndex];
-                _playerViewModel.Station = station;
-                await Navigation.PushAsync(new Player(ref _playerViewModel));
-            }
+
+            var station = _viewModel.Stations[e.ItemIndex];
+            _playerViewModel.Station = station;
+            await Navigation.PushAsync(new Player(ref _playerViewModel));
 
             ((ListView) sender).SelectedItem = null;
+        }
+
+        private void SwipeItem_OnInvoked(object sender, EventArgs e)
+        {
+            Debug.WriteLine(e);
         }
     }
 }

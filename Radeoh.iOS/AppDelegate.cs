@@ -5,6 +5,7 @@ using System.Reflection;
 using AVFoundation;
 using Foundation;
 using UIKit;
+using Xamarin.Forms;
 
 namespace Radeoh.iOS
 {
@@ -23,6 +24,7 @@ namespace Radeoh.iOS
         //
         public override bool FinishedLaunching(UIApplication app, NSDictionary options)
         {
+            Forms.SetFlags("SwipeView_Experimental");
             global::Xamarin.Forms.Forms.Init();
             InitializeNLog();
             EnableBackgroundAudio();

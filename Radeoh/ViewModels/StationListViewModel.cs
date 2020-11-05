@@ -14,19 +14,23 @@ namespace Radeoh.ViewModels
     public class StationListViewModel : BaseViewModel, INotifyPropertyChanged
     {
         private ObservableCollection<Station> _stations;
-        private bool _hasStations = false;
-        public ICommand FetchStationsCommand { get; set; }
+        private bool _hasStations;
+        public ICommand FetchStationsCommand { get; }
         public event PropertyChangedEventHandler PropertyChanged;
 
         public StationListViewModel()
         {
+            if (_hasStations)
+            {
+                return;
+            }
             FetchStationsCommand = new Command(async () => await RunSafe(FetchStations()));
         }
 
         public ObservableCollection<Station> Stations
         {
             get => _stations;
-            set
+            private set
             {
                 _stations = value;
                 OnPropertyChanged();

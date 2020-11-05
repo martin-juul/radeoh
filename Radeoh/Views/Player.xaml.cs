@@ -23,20 +23,16 @@ namespace Radeoh.Views
         protected override async void OnAppearing()
         {
             base.OnAppearing();
+            
             StationImage.Source = _playerViewModel.Station.CachedImageSource;
-            LabelMediaDetails.Text = _playerViewModel.Station.Title;
+            LabelMediaDetails.Text = _playerViewModel.Station.Name;
+            LabelMediaGenre.Text = _playerViewModel.Station.Genre;
 
             await _playerViewModel.InitPlay();
         }
 
-        protected override void OnDisappearing()
-        {
-            base.OnDisappearing();
-        }
-
         public async void PlayPauseButton_Clicked(object sender, EventArgs e)
         {
-            Debug.Print($"Player::PlayPauseButton_Clicked {sender} {e}");
             await _playerViewModel.InitPlay();
         }
     }
