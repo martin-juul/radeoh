@@ -1,6 +1,8 @@
 using System;
 using System.Diagnostics;
 using NLog;
+using Radeoh.DAL.Models;
+using Radeoh.Models;
 using Radeoh.ViewModels;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -47,7 +49,15 @@ namespace Radeoh.Views
 
         private void SwipeItem_OnInvoked(object sender, EventArgs e)
         {
-            Debug.WriteLine(e);
+            var swipeItem = (SwipeItem) sender;
+            var item = (Station) swipeItem.BindingContext;
+            var fav = new Favorite {Slug = item.Slug};
+            
+            App.DbContext.favoriteRepository.SaveAsync(fav).SafeFireAndForget(false);
+
+            item.IsFavorite = true;
+            swipeItem.BackgroundColor = Color.Gray;
+            swipeItem.Text = "💔";
         }
     }
 }

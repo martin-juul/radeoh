@@ -35,5 +35,7 @@ namespace Radeoh.Models
         [JsonProperty("stream_url")] public string StreamUrl { get; set; }
 
         public string InsecureStreamUrl => StreamUrl.Replace("https", "http");
+
+        public bool IsFavorite;
     }
 }

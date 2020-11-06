@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -13,7 +12,7 @@ namespace Radeoh.ViewModels
 {
     public class StationListViewModel : BaseViewModel, INotifyPropertyChanged
     {
-        private ObservableCollection<Station> _stations;
+        private static ObservableCollection<Station> _stations;
         private bool _hasStations;
         public ICommand FetchStationsCommand { get; }
         public event PropertyChangedEventHandler PropertyChanged;
@@ -47,7 +46,20 @@ namespace Radeoh.ViewModels
             {
                 var res = await httpResponse.Content.ReadAsStringAsync();
                 var json = await Task.Run(() => JsonConvert.DeserializeObject<List<Station>>(res));
+                var favorites = await App.DbContext.favoriteRepository.GetAsync();
                 Stations = new ObservableCollection<Station>(json);
+                
+                favorites.ForEach(x =>
+                {
+                    foreach (var station in Stations)
+                    {
+                        if (x.Slug == station.Slug)
+                        {
+                            station.IsFavorite = true;
+                        }
+                    }
+                });
+                
                 this._hasStations = true;
             }
             else

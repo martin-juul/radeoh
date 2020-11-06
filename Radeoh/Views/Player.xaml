@@ -57,7 +57,8 @@
         <Button
             BackgroundColor="Orange"
             Clicked="PlayPauseButton_Clicked"
-            Text="Play/Pause"
+            FontSize="Large"
+            Text="➹"
             TextColor="White" />
         
     </FlexLayout>
