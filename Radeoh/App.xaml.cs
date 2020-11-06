@@ -8,7 +8,7 @@ namespace Radeoh
 {
     public partial class App : Application
     {
-        private static RadeohDatabase _database;
+        private static DbContext _dbContext;
         private readonly NLog.Logger _logger = NLog.LogManager.GetCurrentClassLogger();
         
         public App()
@@ -22,21 +22,12 @@ namespace Radeoh
             MainPage = new NavigationPage(new StationListView());
         }
         
-        public static RadeohDatabase Database
-        {
-            get
-            {
-                if (_database == null)
-                {
-                    _database = new RadeohDatabase();
-                }
+        public static DbContext DbContext => _dbContext ??= new DbContext();
 
-                return _database;
-            }
-        }
-        
         protected override void OnStart()
         {
+            DbContext.Database.InitializeAsync().SafeFireAndForget(false);
+            
             VersionTracking.Track();
         }
 

@@ -66,6 +66,9 @@ namespace Radeoh.ViewModels
 
             _currentItem.Title = Station.Title;
             _currentItem.Image = Station.CachedImageSource;
+            
+            ConfigureNotification();
+            
             _mediaManager.Notification.UpdateNotification();
         }
 
@@ -82,17 +85,13 @@ namespace Radeoh.ViewModels
                 }
             }
 
-            if (_mediaManager.Queue.HasCurrent)
-            {
-                if (_currentItem.MediaUri == uri)
-                {
-                    Debug.Print("Unpausing");
-                    await _mediaManager.Play();
-                    return true;
-                }
-            }
+            if (!_mediaManager.Queue.HasCurrent) return false;
+            if (_currentItem.MediaUri != uri) return false;
+            
+            Debug.Print("Unpausing");
+            await _mediaManager.Play();
+            return true;
 
-            return false;
         }
 
         private void ConfigureMediaManager()
@@ -101,14 +100,9 @@ namespace Radeoh.ViewModels
             _mediaManager.MediaItemChanged += CurrentOnMediaItemChanged;
             _mediaManager.MediaItemFailed += CurrentOnMediaItemFailed;
             
-            _mediaManager.AutoPlay = true;
             _mediaManager.ClearQueueOnPlay = true;
             _mediaManager.RetryPlayOnFailed = true;
-            _mediaManager.MaxRetryCount = 5; 
-            
-            _mediaManager.Notification.ShowNavigationControls = false;
-            _mediaManager.Notification.ShowPlayPauseControls = true;
-            _mediaManager.Notification.Enabled = true;
+            _mediaManager.MaxRetryCount = 5;
         }
 
         private void ConfigureNotification()
