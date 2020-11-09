@@ -55,9 +55,18 @@ namespace Radeoh.Views
             
             App.DbContext.favoriteRepository.SaveAsync(fav).SafeFireAndForget(false);
 
-            item.IsFavorite = true;
-            swipeItem.BackgroundColor = Color.Gray;
-            swipeItem.Text = "💔";
+            if (swipeItem.BackgroundColor == Color.Gray)
+            {
+                swipeItem.BackgroundColor = Color.LightCoral;
+                swipeItem.Text = "❤️";
+                item.IsFavorite = false;
+            }
+            else
+            {
+                swipeItem.BackgroundColor = Color.Gray;
+                swipeItem.Text = "💔";
+                item.IsFavorite = true;
+            }
         }
     }
 }

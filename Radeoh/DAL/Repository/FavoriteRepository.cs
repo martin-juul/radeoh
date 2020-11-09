@@ -18,11 +18,18 @@ namespace Radeoh.DAL.Repository
                 .FirstOrDefaultAsync();
         }
 
+        public Task<Favorite> FindBySlug(string slug)
+        {
+            return RadeohDatabase.Database.Table<Favorite>()
+                .Where(x => x.Slug == slug)
+                .FirstOrDefaultAsync();
+        }
+
         public Task<int> SaveAsync(Favorite item)
         {
-            return item.Id != 0
-                ? RadeohDatabase.Database.UpdateAsync(item)
-                : RadeohDatabase.Database.InsertAsync(item);
+            var exist = FindBySlug(item.Slug);
+
+            return exist.Id != 0 ? DeleteAsync(item) : RadeohDatabase.Database.InsertAsync(item);
         }
 
         public Task<int> DeleteAsync(Favorite item)
