@@ -56,6 +56,8 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="NLog" Version="4.7.5" />
+    <PackageReference Include="Plugin.MediaManager.Forms" Version="1.0.4" />
+    <PackageReference Include="Plugin.MediaManager.Reactive" Version="0.9.9" />
     <PackageReference Include="Xamarin.Forms" Version="4.8.0.1560" />
     <PackageReference Include="Xamarin.Essentials" Version="1.5.3.2" />
     <PackageReference Include="Xamarin.AndroidX.MediaRouter" Version="1.1.0.5" />

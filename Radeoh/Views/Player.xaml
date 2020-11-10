@@ -55,10 +55,13 @@
         </StackLayout>
         
         <Button
+            x:Name="BtnPlayPause"
             BackgroundColor="Orange"
             Clicked="PlayPauseButton_Clicked"
-            FontSize="Large"
-            Text="➹"
+            FontSize="Medium"
+            Padding="10"
+            FontAttributes="Bold"
+            Text="Play"
             TextColor="White" />
         
     </FlexLayout>

@@ -4,7 +4,9 @@ using System.Linq;
 using System.Reflection;
 using AVFoundation;
 using Foundation;
+using MediaManager;
 using UIKit;
+using UserNotifications;
 using Xamarin.Forms;
 
 namespace Radeoh.iOS
@@ -27,6 +29,7 @@ namespace Radeoh.iOS
             Forms.SetFlags("SwipeView_Experimental");
             global::Xamarin.Forms.Forms.Init();
             InitializeNLog();
+            CrossMediaManager.Current.Init();
             EnableBackgroundAudio();
             LoadApplication(new App());
 
@@ -43,7 +46,7 @@ namespace Radeoh.iOS
         private void EnableBackgroundAudio()
         {
             var currentSession = AVAudioSession.SharedInstance();
-            currentSession.SetCategory(AVAudioSessionCategory.Playback, AVAudioSessionCategoryOptions.MixWithOthers);
+            currentSession.SetCategory(AVAudioSessionCategory.Playback, AVAudioSessionCategoryOptions.DuckOthers);
             currentSession.SetActive(true);
         }
     }

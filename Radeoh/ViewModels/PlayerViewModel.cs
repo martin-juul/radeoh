@@ -6,11 +6,8 @@ using Acr.UserDialogs;
 using MediaManager;
 using MediaManager.Library;
 using MediaManager.Media;
-using MediaManager.Playback;
-using MediaManager.Player;
 using NLog;
 using Radeoh.Models;
-using Radeoh.Support;
 
 namespace Radeoh.ViewModels
 {
@@ -39,13 +36,10 @@ namespace Radeoh.ViewModels
             }
         }
 
-        public string PlayerBtnState = "Pause";
-
         public event PropertyChangedEventHandler PropertyChanged;
 
         public PlayerViewModel()
         {
-            Debug.Print("PlayerViewModel: constructed");
             ConfigureMediaManager();
         }
 
@@ -96,7 +90,6 @@ namespace Radeoh.ViewModels
 
         private void ConfigureMediaManager()
         {
-            _mediaManager.StateChanged += CurrentOnStateChanged;
             _mediaManager.MediaItemChanged += CurrentOnMediaItemChanged;
             _mediaManager.MediaItemFailed += CurrentOnMediaItemFailed;
             
@@ -107,48 +100,9 @@ namespace Radeoh.ViewModels
 
         private void ConfigureNotification()
         {
-            _mediaManager.Notification.ShowNavigationControls = false;
-            _mediaManager.Notification.ShowPlayPauseControls = true;
             _mediaManager.Notification.Enabled = true;
-        }
-
-        private void CurrentOnStateChanged(object sender, StateChangedEventArgs e)
-        {
-            var state = "Unknown";
-            
-            switch (e.State)
-            {
-                case MediaPlayerState.Buffering:
-                    Debug.Print("Player: MediaPlayerState.Buffering");
-                    state = "Buffering";
-                    PlayerBtnState = "Pause";
-                    break;
-                case MediaPlayerState.Loading:
-                    Debug.Print("Player: MediaPlayerState.Loading");
-                    state = "Loading";
-                    PlayerBtnState = "Pause";
-                    break;
-                case MediaPlayerState.Paused:
-                    Debug.Print("Player: MediaPlayerState.Paused");
-                    state = "Paused";
-                    PlayerBtnState = "Play";
-                    break;
-                case MediaPlayerState.Stopped:
-                    Debug.Print("Player: MediaPlayerState.Stopped");
-                    state = "Stopped";
-                    PlayerBtnState = "Play";
-                    break;
-                case MediaPlayerState.Failed:
-                    Debug.Print("Player: MediaPlayerState.Failed", _currentItem);
-                    state = "Failed";
-                    PlayerBtnState = "Play";
-                    break;
-                default:
-                    PlayerBtnState = "Play";
-                    break;
-            }
-            
-            _logger.Info($"CurrentOnStateChanged: {state}");
+            _mediaManager.Notification.ShowNavigationControls = true;
+            _mediaManager.Notification.ShowPlayPauseControls = true;
         }
 
         private void CurrentOnMediaItemChanged(object sender, MediaItemEventArgs e)

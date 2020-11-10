@@ -1,4 +1,3 @@
-using MediaManager;
 using Radeoh.DAL;
 using Radeoh.Views;
 using Xamarin.Forms;
@@ -17,8 +16,6 @@ namespace Radeoh
             _logger.Debug("Initialized component");
             Current.UserAppTheme = OSAppTheme.Dark;
 
-            CrossMediaManager.Current.Init();
-            
             MainPage = new NavigationPage(new StationListView());
         }
         

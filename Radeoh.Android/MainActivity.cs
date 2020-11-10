@@ -7,6 +7,7 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using Android.OS;
+using MediaManager;
 using Xamarin.Forms;
 
 namespace Radeoh.Droid
@@ -20,6 +21,8 @@ namespace Radeoh.Droid
         {
             TabLayoutResource = Resource.Layout.Tabbar;
             ToolbarResource = Resource.Layout.Toolbar;
+            
+            CrossMediaManager.Current.Init();
 
             base.OnCreate(savedInstanceState);
             
