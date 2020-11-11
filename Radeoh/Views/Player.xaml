@@ -7,63 +7,82 @@
     xmlns:d="http://xamarin.com/schemas/2014/forms/design"
     xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:yummy="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
     x:Class="Radeoh.Views.Player"
     x:Name="root"
     ios:Page.UseSafeArea="true"
     mc:Ignorable="d">
-    
-    <FlexLayout
-        BackgroundColor="#121212"
-        Direction="Column"
-        AlignItems="Center"
-        JustifyContent="SpaceEvenly">
-            
-        <Image
-            Aspect="Fill"
-            HeightRequest="150"
-            WidthRequest="150"
-            x:Name="StationImage" />
-        
-        <StackLayout>
-            <Label
-                class="player-station-image"
-                x:Name="LabelMediaDetails"
-                Margin="5,0,5,0"
+
+    <yummy:PancakeView>
+        <FlexLayout
+            BackgroundColor="#121212"
+            Direction="Column"
+            AlignItems="Center"
+            JustifyContent="SpaceEvenly">
+
+            <Frame
+                CornerRadius="20"
+                Padding="0"
+                HasShadow="True"
+                IsClippedToBounds="True">
+                <Image
+                    Aspect="Fill"
+                    HeightRequest="300"
+                    WidthRequest="300"
+                    x:Name="StationImage" />
+            </Frame>
+
+            <StackLayout>
+                <Label
+                    class="player-station-image"
+                    x:Name="LabelMediaDetails"
+                    Margin="5,0,5,0"
+                    FontSize="Medium"
+                    FontAttributes="Bold"
+                    HeightRequest="35"
+                    HorizontalOptions="FillAndExpand"
+                    HorizontalTextAlignment="Center"
+                    LineBreakMode="TailTruncation"
+                    MaxLines="1"
+                    TextColor="Orange"
+                    VerticalTextAlignment="Center" />
+
+                <Label
+                    x:Name="LabelMediaGenre"
+                    Margin="5, 0, 5, 0"
+                    FontSize="Medium"
+                    FontAttributes="Bold"
+                    HeightRequest="25"
+                    HorizontalOptions="FillAndExpand"
+                    HorizontalTextAlignment="Center"
+                    LineBreakMode="TailTruncation"
+                    MaxLines="1"
+                    TextColor="Orange"
+                    VerticalTextAlignment="Center" />
+
+                <Label
+                    x:Name="LabelState"
+                    FontSize="Small"
+                    FontAttributes="Bold"
+                    MaxLines="1"
+                    HorizontalOptions="FillAndExpand"
+                    HorizontalTextAlignment="Center"
+                    VerticalTextAlignment="Center"
+                    LineBreakMode="TailTruncation"
+                    TextColor="#505050" />
+            </StackLayout>
+
+            <Button
+                x:Name="BtnPlayPause"
+                BackgroundColor="Orange"
+                Clicked="PlayPauseButton_Clicked"
                 FontSize="Medium"
+                Padding="10"
                 FontAttributes="Bold"
-                HeightRequest="35"
-                HorizontalOptions="FillAndExpand"
-                HorizontalTextAlignment="Center"
-                LineBreakMode="TailTruncation"
-                MaxLines="1"
-                TextColor="Orange"
-                VerticalTextAlignment="Center" />
-        
-            <Label
-                x:Name="LabelMediaGenre"
-                Margin="5, 0, 5, 0"
-                FontSize="Medium"
-                FontAttributes="Bold"
-                HeightRequest="25"
-                HorizontalOptions="FillAndExpand"
-                HorizontalTextAlignment="Center"
-                LineBreakMode="TailTruncation"
-                MaxLines="1"
-                TextColor="Orange"
-                VerticalTextAlignment="Center"
-            />
-        </StackLayout>
-        
-        <Button
-            x:Name="BtnPlayPause"
-            BackgroundColor="Orange"
-            Clicked="PlayPauseButton_Clicked"
-            FontSize="Medium"
-            Padding="10"
-            FontAttributes="Bold"
-            Text="Play"
-            TextColor="White" />
-        
-    </FlexLayout>
-    
+                Text="Play"
+                TextColor="White" />
+
+        </FlexLayout>
+    </yummy:PancakeView>
+
 </ContentPage>

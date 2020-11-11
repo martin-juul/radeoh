@@ -25,6 +25,7 @@ namespace Radeoh.Views
 
         protected override async void OnAppearing()
         {
+            IsBusy = true;
             base.OnAppearing();
 
             StationImage.Source = _playerViewModel.Station.CachedImageSource;
@@ -37,6 +38,8 @@ namespace Radeoh.Views
 
             CrossMediaManager.Current.Reactive().State
                 .Subscribe(ParseState, _cancellationToken);
+
+            IsBusy = false;
         }
 
         protected override void OnDisappearing()
@@ -83,6 +86,7 @@ namespace Radeoh.Views
             
             Debug.WriteLine($"MediaPlayerState: {_stateStr}");
 
+            LabelState.Text = _stateStr;
             BtnPlayPause.Text = isPlaying ? "Pause" : "Play";
         }
     }

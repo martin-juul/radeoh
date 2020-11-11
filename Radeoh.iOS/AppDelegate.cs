@@ -5,6 +5,7 @@ using System.Reflection;
 using AVFoundation;
 using Foundation;
 using MediaManager;
+using MediaPlayer;
 using UIKit;
 using UserNotifications;
 using Xamarin.Forms;
@@ -48,6 +49,9 @@ namespace Radeoh.iOS
             var currentSession = AVAudioSession.SharedInstance();
             currentSession.SetCategory(AVAudioSessionCategory.Playback, AVAudioSessionCategoryOptions.DuckOthers);
             currentSession.SetActive(true);
+            
+            
+            MPRemoteCommandCenter.Shared.PlayCommand.Enabled = true;
         }
     }
 }

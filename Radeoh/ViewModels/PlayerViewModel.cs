@@ -101,7 +101,7 @@ namespace Radeoh.ViewModels
         private void ConfigureNotification()
         {
             _mediaManager.Notification.Enabled = true;
-            _mediaManager.Notification.ShowNavigationControls = true;
+            _mediaManager.Notification.ShowNavigationControls = false;
             _mediaManager.Notification.ShowPlayPauseControls = true;
         }
 
